@@ -1,15 +1,15 @@
-import { StyleSheet, TextStyle } from 'react-native';
+import { StyleSheet, TextStyle } from "react-native";
 
-import { ThemeType } from '@utils';
+import { ThemeType } from "@utils";
 
-import { AlignType, FontFamily } from './types';
+import { AlignType, FontFamily } from "./types";
 
 type TextStyleWithFamily = (family: FontFamily) => TextStyle;
 interface Styles {
   common: TextStyleWithFamily;
   color: (
     theme: ThemeType,
-    _color: Exclude<keyof ThemeType['colors'], 'opacity'>,
+    _color: Exclude<keyof ThemeType["colors"], "opacity">
   ) => TextStyle;
   text_align: (align: AlignType) => TextStyle;
 
@@ -31,61 +31,61 @@ interface Styles {
 
 // TODO hacer el tipado para que las funciones sean opcionales cuando se usan
 const styles: Styles = StyleSheet.create<Styles>({
-  common: family => ({
+  common: (family) => ({
     fontFamily: `${family}-Regular`,
   }),
   color: (theme, _color) => ({
     color: theme.colors[_color],
   }),
-  text_align: align => ({ textAlign: align }),
+  text_align: (align) => ({ textAlign: align }),
 
-  fontWeight_normal: family => ({
+  fontWeight_normal: (family) => ({
     fontFamily: `${family}-Regular`,
-    fontWeight: 'normal',
+    fontWeight: "normal",
   }),
-  fontWeight_bold: family => ({
+  fontWeight_bold: (family) => ({
     fontFamily: `${family}-Bold`,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   }),
-  fontWeight_bolder: family => ({
+  fontWeight_bolder: (family) => ({
     fontFamily: `${family}-Bold`,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   }),
-  fontWeight_lighter: family => ({
+  fontWeight_lighter: (family) => ({
     fontFamily: `${family}-ExtraLight`,
-    fontWeight: '200',
+    fontWeight: "200",
   }),
-  fontWeight_200: family => ({
+  fontWeight_200: (family) => ({
     fontFamily: `${family}-ExtraLight`,
-    fontWeight: '200',
+    fontWeight: "200",
   }),
-  fontWeight_300: family => ({
+  fontWeight_300: (family) => ({
     fontFamily: `${family}-Light`,
-    fontWeight: '300',
+    fontWeight: "300",
   }),
-  fontWeight_400: family => ({
+  fontWeight_400: (family) => ({
     fontFamily: `${family}-Regular`,
-    fontWeight: '400',
+    fontWeight: "400",
   }),
-  fontWeight_500: family => ({
+  fontWeight_500: (family) => ({
     fontFamily: `${family}-Medium`,
-    fontWeight: '500',
+    fontWeight: "500",
   }),
-  fontWeight_600: family => ({
-    fontFamily: `${family}-${family === 'Oswald' ? 'SemiBold' : 'DemiBold'}`,
-    fontWeight: '600',
+  fontWeight_600: (family) => ({
+    fontFamily: `${family}-${family === "OpenSans" ? "SemiBold" : "DemiBold"}`,
+    fontWeight: "600",
   }),
-  fontWeight_700: family => ({
+  fontWeight_700: (family) => ({
     fontFamily: `${family}-Bold`,
-    fontWeight: '700',
+    fontWeight: "700",
   }),
-  fontWeight_800: family => ({
+  fontWeight_800: (family) => ({
     fontFamily: `${family}-Bold`,
-    fontWeight: '800',
+    fontWeight: "800",
   }),
-  fontWeight_900: family => ({
+  fontWeight_900: (family) => ({
     fontFamily: `${family}-Bold`,
-    fontWeight: '900',
+    fontWeight: "900",
   }),
 });
 

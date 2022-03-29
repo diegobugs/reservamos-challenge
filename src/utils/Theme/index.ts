@@ -1,2 +1,2 @@
-export type { Opacity, ThemeType } from './types';
-export { Theme, DarkTheme } from './Theme';
+export type { Opacity, ThemeType } from "./types";
+export { Theme } from "./Theme";

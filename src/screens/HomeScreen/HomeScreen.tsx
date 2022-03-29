@@ -1,13 +1,14 @@
-import { MainStackParamList } from '@navigator';
-import { NavigationProp, useTheme } from '@react-navigation/native';
-import { ThemeType } from '@utils';
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { styles } from './styles';
+import { Text } from "@atoms";
+import { MainStackParamList } from "@navigator";
+import { NavigationProp, useTheme } from "@react-navigation/native";
+import { ThemeType } from "@utils";
+import React from "react";
+import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "./styles";
 
 interface HomeScreenProps {
-  navigation: NavigationProp<MainStackParamList, 'Home'>;
+  navigation: NavigationProp<MainStackParamList, "Home">;
 }
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
@@ -18,8 +19,9 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       <View
         style={{
           marginBottom: 10,
-        }}>
-        <Text>Template App</Text>            
+        }}
+      >
+        <Text>Template App</Text>
       </View>
     </SafeAreaView>
   );
