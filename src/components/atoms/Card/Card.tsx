@@ -13,6 +13,7 @@ export type CardProps = ViewProps & {
   collapsable?: boolean;
   CollapsedContent?: FunctionComponent;
   divider?: boolean;
+  disableActionIcon?: boolean;
   icon?: IconsList;
   onActionPress?: () => void;
   left?: string | JSX.Element;
@@ -51,6 +52,7 @@ const Card = ({
   icon,
   left,
   onActionPress,
+  disableActionIcon = false,
   right,
   shadow = false,
   text,
@@ -97,7 +99,7 @@ const Card = ({
           <View style={styles.rightContainer}>
             <Component render={right} />
           </View>
-          {onActionPress ? (
+          {onActionPress && !disableActionIcon ? (
             <Icon
               icon="arrow"
               width={16}
