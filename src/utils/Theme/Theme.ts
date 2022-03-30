@@ -30,7 +30,7 @@ const Theme: ThemeType = {
     rejected: "#e0a0a0",
     rejectedContrast: "#FFFFFF",
     secondary: "#012674",
-    secondaryContrast: "#353535",
+    secondaryContrast: "#FFFFFF",
     success: "#b3e7dd",
     successContrast: "#FFFFFF",
     opacity,
