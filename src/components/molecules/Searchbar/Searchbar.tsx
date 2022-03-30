@@ -7,9 +7,10 @@ import { Icon } from "@atoms";
 
 export type SearchbarProps = {
   onSearch: (q: string) => void;
+  placeholder: string;
 };
 
-const Searchbar = ({ onSearch }: SearchbarProps) => {
+const Searchbar = ({ onSearch, placeholder }: SearchbarProps) => {
   const theme = useTheme() as ThemeType;
   let inputRef = useRef<TextInput>().current;
 
@@ -36,11 +37,10 @@ const Searchbar = ({ onSearch }: SearchbarProps) => {
       </Pressable>
       <TextInput
         ref={setRef}
-        style={{
-          width: "100%",
-          height: 60,
-          color: theme.colors.secondaryContrast,
-        }}
+        style={styles.textInput(theme)}
+        placeholder={placeholder}
+        placeholderTextColor={theme.colors.border}
+        onChangeText={handleSearch}
       />
     </View>
   );
