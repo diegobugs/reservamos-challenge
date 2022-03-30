@@ -18,6 +18,10 @@ import { Provider } from "react-redux";
 import { store, persistor } from "@store";
 import { PersistGate } from "redux-persist/integration/react";
 
+import moment from "moment";
+import "moment/locale/es";
+moment.locale("es");
+
 const App = () => {
   useEffect(() => {
     if (Platform.OS === "android") {

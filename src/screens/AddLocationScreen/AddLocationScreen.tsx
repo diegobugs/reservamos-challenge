@@ -1,4 +1,4 @@
-import { Text } from "@atoms";
+import { Lottie, Text } from "@atoms";
 import { Searchbar } from "@molecules";
 import { MainStackParamList } from "@navigator";
 import { useTheme } from "@react-navigation/native";
@@ -27,6 +27,7 @@ const AddLocationScreen = ({ navigation }: AddLocationScreenProps) => {
         }}
       >
         <Searchbar onSearch={handleSearch} />
+        <Lottie autoPlay lottie="bus" loop style={{ opacity: 0.5 }} />
         <Text>Location App</Text>
       </View>
     </View>

@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import Icons, { IconsList } from "../../../assets/icons";
 import { ThemeType } from "@utils";
+import { styles } from "./styles";
 
 export type SvgType = {
   fill?: Exclude<keyof ThemeType["colors"], "opacity">;
@@ -10,6 +11,7 @@ export type SvgType = {
 };
 
 export type IconType = { [key: string]: React.FC };
+
 export type IconProps = SvgType & {
   height?: number;
   /** Nombre del ícono a ser renderizado */
@@ -18,15 +20,7 @@ export type IconProps = SvgType & {
   style?: ViewStyle | (ViewStyle | null | undefined)[];
   width?: number;
 };
-interface Styles {
-  rotate: (rotation: number) => ViewStyle;
-  [key: string]: any;
-}
-const styles = StyleSheet.create<Styles>({
-  rotate: (rotation: number) => ({
-    transform: [{ rotate: `${rotation}deg` }],
-  }),
-});
+
 const Icon = ({ icon, rotate = 0, style, ...props }: IconProps) => {
   const Component = Icons[icon];
   return (
