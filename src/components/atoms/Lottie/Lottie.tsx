@@ -13,11 +13,12 @@ export type LottieProps = Partial<LottieView["props"]> & {
   segment?: SegmentType;
 };
 
-export type LottieListType = "empty" | "bus";
+export type LottieListType = "empty" | "bus" | "skeleton";
 
 export const LottieList = Object.freeze({
   bus: require("@assets/animations/bus.json"),
   empty: require("@assets/animations/empty.json"),
+  skeleton: require("@assets/animations/skeleton.json"),
 });
 
 const Lottie = (

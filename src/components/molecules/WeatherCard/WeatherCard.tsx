@@ -1,16 +1,17 @@
-import { View, Pressable, Image } from "react-native";
-import React, { useCallback } from "react";
+import { View, Image } from "react-native";
+import React from "react";
 import { styles } from "./styles";
 import { useTheme } from "@react-navigation/native";
 import { getTempColor, ThemeType } from "@utils";
-import { Text } from "@atoms";
+import { Lottie, Text } from "@atoms";
 import moment from "moment";
+import { OW_IMG_URL } from "@env";
 
 export type WeatherCardProps = {
   date: Date;
-  max: number;
-  min: number;
-  weather: string;
+  max?: number;
+  min?: number;
+  webIcon?: string;
 };
 
 // Configuracion de moment para días en formato deseado
@@ -25,7 +26,7 @@ moment.updateLocale("es", {
   },
 });
 
-const WeatherCard = ({ date, max, min, weather }: WeatherCardProps) => {
+const WeatherCard = ({ date, max, min, webIcon }: WeatherCardProps) => {
   const theme = useTheme() as ThemeType;
 
   const isToday = (date: Date) => {
@@ -46,10 +47,27 @@ const WeatherCard = ({ date, max, min, weather }: WeatherCardProps) => {
         </Text>
       </View>
       <View style={styles.tempContainer}>
-        <Text style={styles.tempText(theme, getTempColor(max))}>{max}º</Text>
+        {max ? (
+          <Text style={styles.tempText(theme, getTempColor(max))}>{max}º</Text>
+        ) : (
+          <Lottie loop lottie="skeleton" style={styles.skeleton} />
+        )}
         <View style={styles.divider(theme)} />
-        <Text style={styles.tempText(theme, getTempColor(min))}>{min}º</Text>
+        {min ? (
+          <Text style={styles.tempText(theme, getTempColor(min))}>{min}º</Text>
+        ) : (
+          <Lottie loop lottie="skeleton" style={styles.skeleton} />
+        )}
       </View>
+      {webIcon ? (
+        <View>
+          <Image
+            source={{ uri: `${OW_IMG_URL}/${webIcon}@2x.png` }}
+            resizeMode="contain"
+            style={styles.image}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };

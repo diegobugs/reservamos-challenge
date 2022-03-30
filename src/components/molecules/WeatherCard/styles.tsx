@@ -7,9 +7,9 @@ interface Styles {
   divider: (theme: ThemeType) => ViewStyle;
   header: (theme: ThemeType, selected: boolean) => ViewStyle;
   image: ImageStyle;
+  skeleton: ViewStyle;
   tempContainer: ViewStyle;
   tempText: (theme: ThemeType, color: string) => TextStyle;
-
   [key: string]: any;
 }
 
@@ -34,6 +34,10 @@ export const styles: Styles = StyleSheet.create<Styles>({
   image: {
     width: 40,
     height: 40,
+    alignSelf: "center",
+  },
+  skeleton: {
+    height: 22,
   },
   tempContainer: {
     alignItems: "center",

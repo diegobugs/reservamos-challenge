@@ -12,7 +12,7 @@ interface Styles {
 export const styles = StyleSheet.create<Styles>({
   container: (theme) => ({
     flex: 1,
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.background,
   }),
   content: {
     paddingVertical: 16,
