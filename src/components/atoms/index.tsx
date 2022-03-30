@@ -4,3 +4,5 @@ export { default as Icon } from "./Icon";
 export type { IconProps, IconType } from "./Icon";
 export { default as Lottie } from "./Lottie";
 export type { LottieProps } from "./Lottie";
+export { default as Card } from "./Card";
+export type { CardProps } from "./Card";
