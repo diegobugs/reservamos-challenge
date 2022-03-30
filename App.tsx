@@ -8,24 +8,28 @@
  * @format
  */
 
-import React from "react";
-import { StatusBar, useColorScheme } from "react-native";
+import React, { useEffect } from "react";
+import { Platform, StatusBar } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { MainNavigator } from "@navigator";
-import { Theme, DarkTheme } from "@utils";
+import { Theme } from "@utils";
 import { Provider } from "react-redux";
 import { store, persistor } from "@store";
 import { PersistGate } from "redux-persist/integration/react";
 
 const App = () => {
-  const isDarkMode = useColorScheme() === "dark";
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      StatusBar.setBackgroundColor(Theme.colors.secondary);
+    }
+  }, []);
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <StatusBar hidden={true} />
-        <NavigationContainer theme={isDarkMode ? DarkTheme : Theme}>
+        <StatusBar hidden={false} barStyle="light-content" />
+        <NavigationContainer theme={Theme}>
           <MainNavigator />
         </NavigationContainer>
       </PersistGate>

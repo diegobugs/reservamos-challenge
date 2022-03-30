@@ -1,27 +1,33 @@
-import { Text } from "@atoms";
+import { Lottie, Text } from "@atoms";
+import { Header } from "@molecules";
 import { MainStackParamList } from "@navigator";
-import { NavigationProp, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ThemeType } from "@utils";
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 
 interface HomeScreenProps {
-  navigation: NavigationProp<MainStackParamList, "Home">;
+  navigation: NativeStackNavigationProp<MainStackParamList, "Home">;
 }
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const theme = useTheme() as ThemeType;
 
   return (
-    <SafeAreaView style={styles.container(theme)}>
+    <SafeAreaView style={styles.container(theme)} edges={["top"]}>
+      <Header navigation={navigation} />
       <View
         style={{
-          marginBottom: 10,
+          flex: 1,
+          backgroundColor: theme.colors.background,
         }}
       >
-        <Text>Template App</Text>
+        <View style={{ flex: 1 }}>
+          <Lottie lottie="empty" loop style={{ opacity: 0.5 }} />
+        </View>
       </View>
     </SafeAreaView>
   );
