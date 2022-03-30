@@ -12,6 +12,7 @@ export type CardProps = ViewProps & {
   borders?: boolean;
   collapsable?: boolean;
   CollapsedContent?: FunctionComponent;
+  collapsableInitialState?: boolean;
   divider?: boolean;
   disableActionIcon?: boolean;
   icon?: IconsList;
@@ -46,6 +47,7 @@ const Component = ({ icon, render }: ComponentProps) => {
 
 const Card = ({
   borders = false,
+  collapsableInitialState = false,
   collapsable = false,
   CollapsedContent,
   divider = false,
@@ -60,7 +62,7 @@ const Card = ({
   ...props
 }: CardProps) => {
   const theme = useTheme() as ThemeType;
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(collapsableInitialState);
 
   const handleOnPress = () => {
     if (collapsable && typeof onActionPress === "function") {

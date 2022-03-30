@@ -4,9 +4,10 @@ import { MainStackParamList } from "@navigator";
 import { useTheme } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { placesActions, RootStoreType } from "@store";
-import { Place, PlacesResponse, ThemeType } from "@utils";
+import { PlaceType, PlacesResponse, ThemeType } from "@utils";
 import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "use-debounce";
 
@@ -64,7 +65,7 @@ const AddLocationScreen = ({ navigation }: AddLocationScreenProps) => {
     }
   };
 
-  const handlePlacePress = (place: Place) => {
+  const handlePlacePress = (place: PlaceType) => {
     if (isSelected(place.id)) {
       setSelectedPlaces((prev) => [
         ...prev.filter((current) => current.id !== place.id),
@@ -74,7 +75,7 @@ const AddLocationScreen = ({ navigation }: AddLocationScreenProps) => {
     }
   };
 
-  const isSelected = (id: Place["id"]) => {
+  const isSelected = (id: PlaceType["id"]) => {
     return selectedPlaces.find((p) => p.id === id);
   };
 
@@ -83,7 +84,7 @@ const AddLocationScreen = ({ navigation }: AddLocationScreenProps) => {
     navigation.goBack();
   };
 
-  const renderItem = ({ item }: { item: Place }) => {
+  const renderItem = ({ item }: { item: PlaceType }) => {
     return (
       <Card
         key={item.id}
@@ -104,7 +105,7 @@ const AddLocationScreen = ({ navigation }: AddLocationScreenProps) => {
   };
 
   return (
-    <View style={styles.container(theme)}>
+    <SafeAreaView style={styles.container(theme)} edges={["bottom"]}>
       <View style={styles.fullContent(theme)}>
         <Searchbar onSearch={onSearchChange} placeholder={"Buscar destinos"} />
         <View style={styles.content}>
@@ -118,7 +119,7 @@ const AddLocationScreen = ({ navigation }: AddLocationScreenProps) => {
           <Button onPress={addSelectedPlaces}>Añadir</Button>
         ) : null}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
