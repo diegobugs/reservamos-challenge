@@ -20,6 +20,8 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import moment from "moment";
 import "moment/locale/es";
+import { DeleteIndicatorProvider } from "@hooks";
+import { DeleteIndicator } from "@atoms";
 moment.locale("es");
 
 const App = () => {
@@ -34,7 +36,10 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <StatusBar hidden={false} barStyle="light-content" />
         <NavigationContainer theme={Theme}>
-          <MainNavigator />
+          <DeleteIndicatorProvider>
+            <MainNavigator />
+            <DeleteIndicator />
+          </DeleteIndicatorProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>

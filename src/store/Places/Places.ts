@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Place } from "@utils";
+import { PlaceType } from "@utils";
 
 import { PlacesReducer } from "./types";
 
@@ -11,9 +11,15 @@ const placesSlice = createSlice({
   name: "places",
   initialState,
   reducers: {
-    addPlaces: (state, action: PayloadAction<Array<Place>>) => ({
+    addPlaces: (state, action: PayloadAction<Array<PlaceType>>) => ({
       ...state,
       selected: [...state.selected, ...action.payload],
+    }),
+    removePlace: (state, action: PayloadAction<PlaceType["id"]>) => ({
+      ...state,
+      selected: [
+        ...state.selected.filter((place) => place.id !== action.payload),
+      ],
     }),
   },
 });
