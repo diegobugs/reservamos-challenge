@@ -15,8 +15,17 @@ module.exports = {
           "@store": "./src/store",
           "@screens": "./src/screens",
           "@utils": "./src/utils",
+          "@hooks": "./src/hooks",
         },
       },
     ],
+    [
+      "module:react-native-dotenv",
+      {
+        moduleName: "@env",
+        path: ".env",
+      },
+    ],
+    "react-native-reanimated/plugin",
   ],
 };
