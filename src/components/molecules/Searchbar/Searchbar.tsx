@@ -1,4 +1,4 @@
-import { View, Image, Pressable, TextInput } from "react-native";
+import { View, Pressable, TextInput } from "react-native";
 import React, { useRef } from "react";
 import { styles } from "./styles";
 import { useTheme } from "@react-navigation/native";
@@ -33,7 +33,13 @@ const Searchbar = ({ onSearch, placeholder }: SearchbarProps) => {
   return (
     <View style={styles.header(theme)}>
       <Pressable onPress={handleIconPress}>
-        <Icon icon="search" width={16} height={16} fill={"secondaryContrast"} />
+        <Icon
+          icon="search"
+          width={16}
+          height={16}
+          style={styles.icon}
+          fill={"secondaryContrast"}
+        />
       </Pressable>
       <TextInput
         ref={setRef}

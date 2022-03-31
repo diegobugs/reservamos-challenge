@@ -1,8 +1,11 @@
 import { ThemeType } from "@utils";
-import { StyleSheet, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, ViewStyle } from "react-native";
 
 interface Styles {
   header: (theme: ThemeType) => ViewStyle;
+  image: ImageStyle;
+  left: ViewStyle;
+  right: ViewStyle;
   [key: string]: any;
 }
 
@@ -14,6 +17,7 @@ export const styles: Styles = StyleSheet.create<Styles>({
     alignItems: "center",
     height: 60,
   }),
+  image: { width: 160, height: 40 },
   left: {
     flex: 1,
   },
