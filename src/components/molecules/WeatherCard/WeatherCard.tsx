@@ -60,13 +60,13 @@ const WeatherCard = ({ date, max, min, webIcon }: WeatherCardProps) => {
         )}
       </View>
       {webIcon ? (
-        <View>
-          <Image
-            source={{ uri: `${OW_IMG_URL}/${webIcon}@2x.png` }}
-            resizeMode="contain"
-            style={styles.image}
-          />
-        </View>
+        <Image
+          source={{
+            uri: `${OW_IMG_URL}/${webIcon}@2x.png`,
+          }}
+          resizeMode="contain"
+          style={styles.image}
+        />
       ) : null}
     </View>
   );

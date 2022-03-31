@@ -15,6 +15,7 @@ module.exports = {
           "@store": "./src/store",
           "@screens": "./src/screens",
           "@utils": "./src/utils",
+          "@hooks": "./src/hooks",
         },
       },
     ],
@@ -25,5 +26,6 @@ module.exports = {
         path: ".env",
       },
     ],
+    "react-native-reanimated/plugin",
   ],
 };

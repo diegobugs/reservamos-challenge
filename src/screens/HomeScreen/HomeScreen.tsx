@@ -3,7 +3,7 @@ import { Header, WeatherCard } from "@molecules";
 import { MainStackParamList } from "@navigator";
 import { useTheme } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStoreType } from "@store";
+import { placesActions, RootStoreType } from "@store";
 import {
   CustomWeatherType,
   PlaceType,
@@ -12,12 +12,13 @@ import {
 } from "@utils";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, ScrollView, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 
 import { OW_URL, OW_API_KEY } from "@env";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 interface HomeScreenProps {
   navigation: NativeStackNavigationProp<MainStackParamList, "Home">;
@@ -25,6 +26,7 @@ interface HomeScreenProps {
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const theme = useTheme() as ThemeType;
+  const dispatch = useDispatch();
   const selectedPlaces = useSelector(
     (store: RootStoreType) => store.places.selected
   );
@@ -77,12 +79,17 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     }
   };
 
+  const removePlace = (id: PlaceType["id"]) => {
+    dispatch(placesActions.removePlace(id));
+  };
+
   const renderItem = ({ item, index }: { item: PlaceType; index: number }) => {
     const weather = placeWeather.find((place) => place && place.id === item.id);
-
     return (
       <Card
         key={item.id}
+        draggable
+        onDragDelete={() => removePlace(item.id)}
         borders
         icon="location"
         title="CIUDAD"
@@ -120,29 +127,32 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.container(theme)} edges={["top"]}>
-      <Header navigation={navigation} />
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: theme.colors.background,
-        }}
-      >
-        <View style={{ flex: 1 }}>
-          <Lottie lottie="empty" loop style={{ opacity: 0.5 }} />
-          {selectedPlaces.length > 0 ? (
-            <FlatList
-              data={selectedPlaces}
-              renderItem={renderItem}
-              contentContainerStyle={{
-                paddingVertical: 16,
-                paddingHorizontal: 16,
-              }}
-            />
-          ) : null}
+    <GestureHandlerRootView style={StyleSheet.absoluteFill}>
+      <SafeAreaView style={styles.container(theme)} edges={["top"]}>
+        <Header navigation={navigation} />
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: theme.colors.background,
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <Lottie lottie="empty" loop style={{ opacity: 0.5 }} />
+            {selectedPlaces.length > 0 ? (
+              <FlatList
+                data={selectedPlaces}
+                renderItem={renderItem}
+                contentContainerStyle={{
+                  flex: 1,
+                  paddingVertical: 16,
+                  paddingHorizontal: 16,
+                }}
+              />
+            ) : null}
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 };
 
