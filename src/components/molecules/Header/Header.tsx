@@ -23,9 +23,7 @@ const Header = ({ navigation }: HeaderProps) => {
       <View style={styles.left}>
         <Image
           source={require("@assets/img/reservamos-logo-w.png")}
-          width={100}
-          height={100}
-          style={{ width: 160, height: 40 }}
+          style={styles.image}
           resizeMode="contain"
         />
       </View>

@@ -12,13 +12,14 @@ import {
 } from "@utils";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 
 import { OW_URL, OW_API_KEY } from "@env";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 
 interface HomeScreenProps {
   navigation: NativeStackNavigationProp<MainStackParamList, "Home">;
@@ -106,7 +107,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
         collapsable
         collapsableInitialState={index !== 0 || typeof weather === "undefined"}
         CollapsedContent={() => (
-          <ScrollView horizontal>
+          <Animated.ScrollView horizontal>
             {[0, 1, 2, 3, 4, 5, 6].map((a) => {
               const daily = weather?.daily[a];
 
@@ -120,7 +121,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
                 />
               );
             })}
-          </ScrollView>
+          </Animated.ScrollView>
         )}
       />
     );
@@ -130,23 +131,14 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     <GestureHandlerRootView style={StyleSheet.absoluteFill}>
       <SafeAreaView style={styles.container(theme)} edges={["top"]}>
         <Header navigation={navigation} />
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: theme.colors.background,
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            <Lottie lottie="empty" loop style={{ opacity: 0.5 }} />
+        <View style={[styles.flex, styles.background(theme)]}>
+          <View style={styles.flex}>
+            <Lottie lottie="empty" loop style={styles.opacity} />
             {selectedPlaces.length > 0 ? (
-              <FlatList
+              <Animated.FlatList
                 data={selectedPlaces}
                 renderItem={renderItem}
-                contentContainerStyle={{
-                  flex: 1,
-                  paddingVertical: 16,
-                  paddingHorizontal: 16,
-                }}
+                contentContainerStyle={styles.flatListContainer}
               />
             ) : null}
           </View>

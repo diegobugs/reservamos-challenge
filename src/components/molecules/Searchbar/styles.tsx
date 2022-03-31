@@ -3,6 +3,7 @@ import { StyleSheet, ViewStyle } from "react-native";
 
 interface Styles {
   header: (theme: ThemeType) => ViewStyle;
+  icon: ViewStyle;
   textInput: (theme: ThemeType) => ViewStyle;
   [key: string]: any;
 }
@@ -15,6 +16,9 @@ export const styles: Styles = StyleSheet.create<Styles>({
     alignItems: "center",
     height: 60,
   }),
+  icon: {
+    paddingRight: 10,
+  },
   textInput: (theme) => ({
     width: "100%",
     height: 60,

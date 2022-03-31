@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from "react";
-import { Dimensions, Pressable, View, ViewProps } from "react-native";
+import { Pressable, View, ViewProps } from "react-native";
 
 import { ThemeType } from "@utils";
 import { styles } from "./styles";
-import { DeleteIndicator, Icon, Text } from "@atoms";
+import { Icon, Text } from "@atoms";
 import { IconsList } from "../../../assets/icons";
 import { useTheme } from "@react-navigation/native";
 import Collapsible from "react-native-collapsible";
@@ -17,20 +17,59 @@ import { useDeleteIndicator } from "@hooks";
 import { DELETE_INDICATOR_X, DELETE_INDICATOR_Y } from "../DeleteIndicator";
 
 export type CardProps = ViewProps & {
+  /**
+   * Define si la tarjeta tiene bordes
+   */
   borders?: boolean;
+  /**
+   * Define si la tarjeta tiene contenido collapsable o desplegable
+   */
   collapsable?: boolean;
   CollapsedContent?: FunctionComponent;
   collapsableInitialState?: boolean;
+  /**
+   * Define si las tarjetas tienen un indicador de divisor
+   */
   divider?: boolean;
+  /**
+   * Deshabilita el icono de acción
+   */
   disableActionIcon?: boolean;
+  /**
+   * Habilita la funcionalidad de desplazar la tarjeta en pantalla
+   */
   draggable?: boolean;
+  /**
+   * Define el icono a mostrar en el inicio de la tarjeta
+   */
   icon?: IconsList;
+  /**
+   * Funcion a ejecutarse al presionar la tarjeta
+   */
   onActionPress?: () => void;
+  /**
+   * Funcion a ejecutarse si se desplaza a la zona de useDeleteIndicator
+   */
   onDragDelete?: () => void;
+  /**
+   * Componente a mostrar en la parte izquierda
+   */
   left?: string | JSX.Element;
+  /**
+   * Componente a mostrar en la parte derecha
+   */
   right?: string | JSX.Element;
+  /**
+   * Habilita sombras a la tarjeta
+   */
   shadow?: boolean;
+  /**
+   * Texto principal de la tarjeta
+   */
   text?: string;
+  /**
+   * Texto de titulo en la parte superior
+   */
   title?: string;
 };
 
@@ -38,6 +77,11 @@ type ComponentProps = {
   icon?: IconsList;
   render?: string | JSX.Element;
 };
+
+/**
+ * Constante para definir el área válida para eliminar un elemento
+ */
+const HITSLOP_DELETE = 60;
 
 const Component = ({ icon, render }: ComponentProps) => {
   if (icon) {
@@ -82,13 +126,28 @@ const Card = ({
   const { showDeleteIndicator, hideDeleteIndicator, activeDeleteIndicator } =
     useDeleteIndicator();
 
+  /**
+   * Funcion que analiza si el numoer X está en el rango de min y max
+   * Se utiliza esta función para verificar el área de toque para eliminar
+   *
+   * @param x
+   * @param min
+   * @param max
+   * @returns
+   */
   const numberInRange = (x: number, min: number, max: number) => {
     "worklet";
     return x >= min && x <= max;
   };
 
-  const gesture = Gesture.Pan()
+  /**
+   * Controlador de deslizar las tarjetas
+   */
+  const panGesture = Gesture.Pan()
     .onStart(() => {
+      /**
+       * Si tiene la funcionalidad de deslizar
+       */
       if (draggable) {
         cardContext.value = {
           x: cardTranslateX.value,
@@ -99,44 +158,58 @@ const Card = ({
       }
     })
     .onUpdate((event) => {
+      /**
+       * Si tiene la funcionalidad de deslizar
+       */
       if (draggable) {
         cardTranslateX.value = event.translationX + cardContext.value.x;
         cardTranslateY.value = event.translationY + cardContext.value.y;
 
+        /**
+         * Se verifica que el desplazamiento esté dentro del área de eliminar para activar el icono
+         */
         if (
           numberInRange(
             event.absoluteX,
-            DELETE_INDICATOR_X - 20,
-            DELETE_INDICATOR_X + 20
+            DELETE_INDICATOR_X - HITSLOP_DELETE,
+            DELETE_INDICATOR_X + HITSLOP_DELETE
           ) &&
           numberInRange(
             event.absoluteY,
-            DELETE_INDICATOR_Y - 20,
-            DELETE_INDICATOR_Y + 20
+            DELETE_INDICATOR_Y - HITSLOP_DELETE,
+            DELETE_INDICATOR_Y + HITSLOP_DELETE
           )
         ) {
+          // Si el area está dentro del los parametros el icono se vuelve en un color activo
           runOnJS(activeDeleteIndicator)();
         } else {
+          // Si el area no está dentro de los parametros el icono se vuelve en su estado normal
           runOnJS(showDeleteIndicator)();
         }
       }
     })
     .onEnd((event) => {
+      /**
+       * Si tiene la funcionalidad de deslizar
+       */
       if (draggable) {
+        // Se esconde el icono de eliminar
         runOnJS(hideDeleteIndicator)();
+        // Se informa que no se está deslizando la tarjeta
         isDragging.value = false;
         if (
           numberInRange(
             event.absoluteX,
-            DELETE_INDICATOR_X - 20,
-            DELETE_INDICATOR_X + 20
+            DELETE_INDICATOR_X - HITSLOP_DELETE,
+            DELETE_INDICATOR_X + HITSLOP_DELETE
           ) &&
           numberInRange(
             event.absoluteY,
-            DELETE_INDICATOR_Y - 20,
-            DELETE_INDICATOR_Y + 20
+            DELETE_INDICATOR_Y - HITSLOP_DELETE,
+            DELETE_INDICATOR_Y + HITSLOP_DELETE
           )
         ) {
+          // Se ejecuta en el hilo de JS la funcion de eliminar un elemento
           if (typeof onDragDelete === "function") {
             runOnJS(onDragDelete)();
           }
@@ -147,6 +220,28 @@ const Card = ({
       }
     });
 
+  /**
+   * Controlador de mantener presionado un elemento
+   * Esto se utiliza para que RN obtenga la exclusividad de un gesto u otro
+   * De lo contrario en Android siempre se ejecuta panGesture y se desactivan todos los demas
+   * Esto hace que no funcione correctamente el ScrollView
+   */
+  const longPressGesture = Gesture.Tap();
+
+  panGesture.config = {
+    minDist: 60,
+  };
+  longPressGesture.config = {
+    minDurationMs: 100,
+    maxDist: 60,
+  };
+
+  // Se combinan los controladores y se da exclusividad solamente a uno cuando ocurran sus parametros de config
+  const combinedGestures = Gesture.Exclusive(longPressGesture, panGesture);
+
+  /*
+   * Estilo animado para mover las tarjetas en pantalla
+   */
   const dStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -157,6 +252,10 @@ const Card = ({
     };
   });
 
+  /**
+   * Controlador al presionar una tarjeta
+   * Si es collapsable, se muestra el contenido de este
+   */
   const handleOnPress = () => {
     if (collapsable && typeof onActionPress === "function") {
       console.warn(
@@ -174,8 +273,8 @@ const Card = ({
   };
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={dStyle}>
+    <GestureDetector gesture={combinedGestures}>
+      <Animated.View style={dStyle} needsOffscreenAlphaCompositing>
         <View
           {...props}
           style={[styles.card(theme, borders, shadow), props?.style]}
@@ -206,7 +305,7 @@ const Card = ({
             ) : null}
           </Pressable>
           {collapsable && CollapsedContent ? (
-            <Collapsible collapsed={collapsed} enablePointerEvents>
+            <Collapsible collapsed={collapsed}>
               <CollapsedContent />
             </Collapsible>
           ) : null}

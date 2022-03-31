@@ -66,6 +66,9 @@ const WeatherCard = ({ date, max, min, webIcon }: WeatherCardProps) => {
           }}
           resizeMode="contain"
           style={styles.image}
+          onError={(error) => {
+            console.log("Error al cargar ", error.nativeEvent.error);
+          }}
         />
       ) : null}
     </View>

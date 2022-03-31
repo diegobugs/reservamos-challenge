@@ -46,18 +46,27 @@ export const DeleteIndicatorProvider: React.FunctionComponent = ({
 const useDeleteIndicator = () => {
   const { dispatch } = useContext(DeleteIndicatorContext);
 
+  /**
+   * Funcion utilizada para esconder el boton de eliminar
+   */
   const hideDeleteIndicator = () => {
     if (typeof dispatch === "function") {
       dispatch("hide");
     }
   };
 
+  /**
+   * Funcion utilizada para mostrar en estado VISIBLE DISABLED el boton de eliminar
+   */
   const showDeleteIndicator = () => {
     if (typeof dispatch === "function") {
       dispatch("show");
     }
   };
 
+  /**
+   * Funcion utilizada para mostrar en estado VISIBLE ACTIVE el boton de eliminar
+   */
   const activeDeleteIndicator = () => {
     if (typeof dispatch === "function") {
       dispatch("active");
