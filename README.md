@@ -20,6 +20,11 @@ git clone https://github.com/diegobugs/reservamos-challenge.git
 yarn install
 ```
 
+### iOS - Instalar Pods
+```bash
+cd ios && pod install
+```
+
 ### Conectar un dispositivo Android o iOS
 
 ### Ejecutar la aplicación en release
