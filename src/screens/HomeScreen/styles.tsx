@@ -21,7 +21,6 @@ export const styles = StyleSheet.create<Styles>({
   opacity: { opacity: 0.5 },
   flex: { flex: 1 },
   flatListContainer: {
-    flex: 1,
     paddingVertical: 16,
     paddingHorizontal: 16,
   },
