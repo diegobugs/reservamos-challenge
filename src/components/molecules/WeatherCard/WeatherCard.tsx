@@ -36,12 +36,16 @@ const WeatherCard = ({ date, max, min, webIcon }: WeatherCardProps) => {
   return (
     <View style={styles.card(theme, isToday(date))}>
       <View style={styles.header(theme, isToday(date))}>
-        <Text color={isToday(date) ? "primaryContrast" : "text"}>
+        <Text
+          color={isToday(date) ? "primaryContrast" : "text"}
+          numberOfLines={1}
+        >
           {moment(date).calendar()}
         </Text>
         <Text
           color={isToday(date) ? "primaryContrast" : "text"}
           style={styles.dateText}
+          numberOfLines={1}
         >
           {moment(date).format("D/MM")}
         </Text>

@@ -12,7 +12,7 @@ import {
 } from "@utils";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
@@ -135,10 +135,11 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
           <View style={styles.flex}>
             <Lottie lottie="empty" loop style={styles.opacity} />
             {selectedPlaces.length > 0 ? (
-              <Animated.FlatList
+              <FlatList
                 data={selectedPlaces}
                 renderItem={renderItem}
                 contentContainerStyle={styles.flatListContainer}
+                scrollEnabled
               />
             ) : null}
           </View>
